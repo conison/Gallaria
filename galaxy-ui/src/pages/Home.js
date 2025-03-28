@@ -1,11 +1,24 @@
-import React, { useState } from 'react';
-import { Container, Paper, Tabs, Tab, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setHosts } from '../store/slice/hostSlice'; // ✅ Corrected import path
 import HostTable from '../components/HostTable';
 
-const Home = () => {
-  const [selectedTab, setSelectedTab] = useState('NDC');
-  const [selectedSidebarTab, setSelectedSidebarTab] = useState('Network');
+// ✅ Import Material-UI components
+import { Container, Typography, Paper, Tabs, Tab } from '@mui/material';
 
+const Home = () => {
+  const dispatch = useDispatch();
+  const hosts = useSelector((state) => state.hosts.hostDetails || []); // ✅ Ensure hosts is an array
+
+  // ✅ Define state for selected tab
+  const [selectedTab, setSelectedTab] = useState("NDC");
+  const [selectedSidebarTab, setSelectedSidebarTab] = useState(null); // If needed
+
+  useEffect(() => {
+    dispatch(setHosts());
+  }, [dispatch]);
+
+  // ✅ Define tab change handler
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
@@ -24,7 +37,7 @@ const Home = () => {
         </Tabs>
       </Paper>
       <div style={{ display: 'flex', marginTop: 20 }}>
-        <HostTable selectedTab={selectedTab} selectedSidebarTab={selectedSidebarTab} />
+        <HostTable selectedTab={selectedTab} selectedSidebarTab={selectedSidebarTab} hosts={hosts} />
       </div>
     </Container>
   );

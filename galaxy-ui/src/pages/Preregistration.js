@@ -1,19 +1,28 @@
-import React, { useState } from "react";
-import { Container, Paper, Tabs, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, Button, Typography, Select, MenuItem } from "@mui/material";
-
-const unregisteredDevices = [
-  { id: 1, mac: "AA:BB:CC:DD:EE:11", onboardedBy: "User1", date: "2025-03-25" },
-  { id: 2, mac: "AA:BB:CC:DD:EE:22", onboardedBy: "User2", date: "2025-03-26" },
-];
-
-const registeredDevices = [
-  { id: 3, mac: "AA:BB:CC:DD:EE:33", type: "NDC", registeredBy: "User3", date: "2025-03-20" },
-];
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Container, Paper, Tabs, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, Button, Typography, Select, MenuItem, CircularProgress } from "@mui/material";
+import { fetchUnregisteredDevices, fetchRegisteredDevices, registerDevices } from "../services/preregistrationService";
+import { setUnregisteredDevices, setRegisteredDevices, setLoading } from "../store/slice/preregistrationSlice";
 
 const Preregistration = () => {
+  const dispatch = useDispatch();
+  const { unregisteredDevices, registeredDevices, loading } = useSelector((state) => state.preregistration);
   const [selectedTab, setSelectedTab] = useState(0);
   const [selectedDevices, setSelectedDevices] = useState([]);
   const [deviceType, setDeviceType] = useState("NDC");
+
+  useEffect(() => {
+    const loadDevices = async () => {
+      dispatch(setLoading(true));
+      const unregistered = await fetchUnregisteredDevices();
+      const registered = await fetchRegisteredDevices();
+      dispatch(setUnregisteredDevices(unregistered));
+      dispatch(setRegisteredDevices(registered));
+      dispatch(setLoading(false));
+    };
+
+    loadDevices();
+  }, [dispatch]);
 
   const handleSelect = (id) => {
     setSelectedDevices((prev) =>
@@ -21,8 +30,10 @@ const Preregistration = () => {
     );
   };
 
-  const handleRegister = () => {
-    alert(`Registering devices ${selectedDevices.join(", ")} as ${deviceType}`);
+  const handleRegister = async () => {
+    await registerDevices(selectedDevices, deviceType);
+    alert(`Registered devices ${selectedDevices.join(", ")} as ${deviceType}`);
+    setSelectedDevices([]);
   };
 
   return (
@@ -35,7 +46,9 @@ const Preregistration = () => {
         </Tabs>
       </Paper>
 
-      {selectedTab === 0 ? (
+      {loading ? (
+        <CircularProgress sx={{ display: "block", margin: "20px auto" }} />
+      ) : selectedTab === 0 ? (
         <Paper sx={{ p: 2, mt: 2 }}>
           <Typography variant="h6">Unregistered Devices</Typography>
           <TableContainer>
