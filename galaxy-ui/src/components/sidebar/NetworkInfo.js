@@ -1,8 +1,27 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Typography } from "@mui/material";
+import LanguageIcon from "@mui/icons-material/Language";
+import PublicIcon from "@mui/icons-material/Public";
+import WifiIcon from "@mui/icons-material/Wifi";
+import DnsIcon from "@mui/icons-material/Dns";
+import LanIcon from "@mui/icons-material/Lan";
+import SettingsEthernetIcon from "@mui/icons-material/SettingsEthernet";
+import RouterIcon from "@mui/icons-material/Router";
+import SubnetIcon from "@mui/icons-material/GridOn";
 import { fetchNetworkDetails } from "../../services/networkService";
 import { setNetworkDetails, setLoading } from "../../store/slice/networkSlice";
+
+const iconMap = {
+  dnsSuffix: <LanguageIcon sx={{ color: "#E53935" }} />,
+  fqdn: <PublicIcon sx={{ color: "#8E24AA" }} />,
+  name: <WifiIcon sx={{ color: "#1E88E5" }} />,
+  type: <DnsIcon sx={{ color: "#43A047" }} />,
+  ip: <LanIcon sx={{ color: "#FB8C00" }} />,
+  mac: <SettingsEthernetIcon sx={{ color: "#3949AB" }} />,
+  gateway: <RouterIcon sx={{ color: "#D81B60" }} />,
+  subnet: <SubnetIcon sx={{ color: "#039BE5" }} />,
+};
 
 const NetworkInfo = () => {
   const dispatch = useDispatch();
@@ -20,7 +39,7 @@ const NetworkInfo = () => {
   }, [dispatch]);
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ backgroundColor: "#f5f5f5" }}>
       {loading ? (
         <CircularProgress sx={{ display: "block", margin: "20px auto" }} />
       ) : networkDetails.length === 0 ? (
@@ -28,7 +47,7 @@ const NetworkInfo = () => {
       ) : (
         <Table>
           <TableHead>
-            <TableRow>
+            <TableRow sx={{ backgroundColor: "#e0e0e0" }}>
               <TableCell>DNS Suffix</TableCell>
               <TableCell>FQDN</TableCell>
               <TableCell>Name</TableCell>
@@ -42,14 +61,14 @@ const NetworkInfo = () => {
           <TableBody>
             {networkDetails.map((row, index) => (
               <TableRow key={index}>
-                <TableCell>{row.dnsSuffix}</TableCell>
-                <TableCell>{row.fqdn}</TableCell>
-                <TableCell>{row.name}</TableCell>
-                <TableCell>{row.type}</TableCell>
-                <TableCell>{row.ip}</TableCell>
-                <TableCell>{row.mac}</TableCell>
-                <TableCell>{row.gateway}</TableCell>
-                <TableCell>{row.subnet}</TableCell>
+                <TableCell>{iconMap.dnsSuffix} {row.dnsSuffix}</TableCell>
+                <TableCell>{iconMap.fqdn} {row.fqdn}</TableCell>
+                <TableCell>{iconMap.name} {row.name}</TableCell>
+                <TableCell>{iconMap.type} {row.type}</TableCell>
+                <TableCell>{iconMap.ip} {row.ip}</TableCell>
+                <TableCell>{iconMap.mac} {row.mac}</TableCell>
+                <TableCell>{iconMap.gateway} {row.gateway}</TableCell>
+                <TableCell>{iconMap.subnet} {row.subnet}</TableCell>
               </TableRow>
             ))}
           </TableBody>

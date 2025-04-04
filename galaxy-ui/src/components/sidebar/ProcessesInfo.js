@@ -3,6 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, CircularProgress, Typography } from "@mui/material";
 import { fetchProcesses } from "../../services/processService";
 import { setProcesses, removeProcess, setLoading } from "../../store/slice/processSlice";
+import MemoryIcon from "@mui/icons-material/Memory";
+import StorageIcon from "@mui/icons-material/Storage";
+import DnsIcon from "@mui/icons-material/Dns";
+import RouteIcon from "@mui/icons-material/Route";
+import FolderIcon from "@mui/icons-material/Folder";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 const ProcessesInfo = () => {
   const dispatch = useDispatch();
@@ -24,7 +30,7 @@ const ProcessesInfo = () => {
   };
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ backgroundColor: "#f5f5f5" }}>
       {loading ? (
         <CircularProgress sx={{ display: "block", margin: "20px auto" }} />
       ) : processes.length === 0 ? (
@@ -32,12 +38,12 @@ const ProcessesInfo = () => {
       ) : (
         <Table>
           <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
+            <TableRow sx={{ backgroundColor: "#e0e0e0" }}>
+              <TableCell>Process Name</TableCell>
               <TableCell>Process ID</TableCell>
               <TableCell>Memory</TableCell>
               <TableCell>Peak Memory</TableCell>
-              <TableCell>Thread</TableCell>
+              <TableCell>Threads</TableCell>
               <TableCell>Path</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
@@ -45,14 +51,19 @@ const ProcessesInfo = () => {
           <TableBody>
             {processes.map((process) => (
               <TableRow key={process.processId}>
-                <TableCell>{process.name}</TableCell>
-                <TableCell>{process.processId}</TableCell>
-                <TableCell>{process.memory}</TableCell>
-                <TableCell>{process.peakMemory}</TableCell>
-                <TableCell>{process.thread}</TableCell>
-                <TableCell>{process.path}</TableCell>
+                <TableCell><DnsIcon sx={{ color: "#1E88E5" }} /> {process.name}</TableCell>
+                <TableCell><RouteIcon sx={{ color: "#43A047" }} /> {process.processId}</TableCell>
+                <TableCell><MemoryIcon sx={{ color: "#F57C00" }} /> {process.memory}</TableCell>
+                <TableCell><StorageIcon sx={{ color: "#8E24AA" }} /> {process.peakMemory}</TableCell>
+                <TableCell><MemoryIcon sx={{ color: "#00796B" }} /> {process.thread}</TableCell>
+                <TableCell><FolderIcon sx={{ color: "#D32F2F" }} /> {process.path}</TableCell>
                 <TableCell>
-                  <Button onClick={() => handleKillProcess(process.processId)} variant="contained" color="error">
+                  <Button 
+                    onClick={() => handleKillProcess(process.processId)} 
+                    variant="contained" 
+                    color="error" 
+                    startIcon={<HighlightOffIcon />}
+                  >
                     Kill
                   </Button>
                 </TableCell>

@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, CircularProgress, Typography } from "@mui/material";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import StopIcon from "@mui/icons-material/Stop";
+import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import FolderOpenIcon from "@mui/icons-material/FolderOpen";
+import MemoryIcon from "@mui/icons-material/Memory";
 import { fetchServices } from "../../services/serviceService";
 import { setServices, toggleServiceStatus, setLoading } from "../../store/slice/serviceSlice";
 
@@ -24,7 +30,7 @@ const ServicesInfo = () => {
   };
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ backgroundColor: "#f5f5f5" }}>
       {loading ? (
         <CircularProgress sx={{ display: "block", margin: "20px auto" }} />
       ) : services.length === 0 ? (
@@ -32,13 +38,13 @@ const ServicesInfo = () => {
       ) : (
         <Table>
           <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
+            <TableRow sx={{ backgroundColor: "#e0e0e0" }}>
+              <TableCell><SettingsApplicationsIcon color="primary" /> Name</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Startup Type</TableCell>
-              <TableCell>Process ID</TableCell>
-              <TableCell>Logon As</TableCell>
-              <TableCell>Path</TableCell>
+              <TableCell><MemoryIcon color="success" /> Process ID</TableCell>
+              <TableCell><AccountCircleIcon color="warning" /> Logon As</TableCell>
+              <TableCell><FolderOpenIcon color="secondary" /> Path</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
@@ -46,7 +52,11 @@ const ServicesInfo = () => {
             {services.map((service) => (
               <TableRow key={service.name}>
                 <TableCell>{service.name}</TableCell>
-                <TableCell>{service.status}</TableCell>
+                <TableCell>
+                  <Typography color={service.status === "Running" ? "green" : "red"}>
+                    {service.status}
+                  </Typography>
+                </TableCell>
                 <TableCell>{service.startupType}</TableCell>
                 <TableCell>{service.processId}</TableCell>
                 <TableCell>{service.logonAs}</TableCell>
@@ -56,6 +66,7 @@ const ServicesInfo = () => {
                     onClick={() => handleToggleService(service.name)}
                     variant="contained"
                     color={service.status === "Running" ? "error" : "success"}
+                    startIcon={service.status === "Running" ? <StopIcon /> : <PlayArrowIcon />}
                   >
                     {service.status === "Running" ? "Stop" : "Start"}
                   </Button>

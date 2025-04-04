@@ -1,32 +1,15 @@
+const API_BASE_URL = "http://localhost:8080/api/hosts";
+
 export const fetchHosts = async () => {
-    // Simulating an API call (Replace later with actual API)
-    return [
-      { hostname: 'NDC123467', mac: '00:11:22:33:44:55', location: 'Singapore', registeredBy: 'user1', regDate: '2025-03-25' },
-      { hostname: 'NDC908540', mac: '00:11:22:33:44:59', location: 'Hong Kong', registeredBy: 'user2', regDate: '2025-03-24' }
-    ];
+    const response = await fetch(`${API_BASE_URL}`);
+    return await response.json();
 };
 
-  export const fetchHostDetails = async (hostname) => {
-    // Simulating an API call (Replace later with actual API)
-    // const response = await fetch(`/api/hosts/${hostname}`);
-    // return await response.json();
-  
-    return {
-      name: hostname,
-      status: "Active",
-      location: "Building A, Floor 5",
-      region: "North America",
-      datacenter: "DC1",
-      city: "New York",
-      building: "Alpha Tower",
-      country: "USA",
-      owner: "John Doe",
-      createdBy: "Admin",
-      createdOn: "2025-03-27",
-    };
-  };
-  
-  
+export const fetchHostDetails = async (hostname) => {
+    const response = await fetch(`${API_BASE_URL}/${hostname}`);
+    return await response.json();
+};
+
 
 export const fetchWorkflows = async () => {
     // const response = await fetch('/api/workflows');

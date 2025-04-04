@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, CircularProgress, Typography, Link } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, CircularProgress, Typography, Link, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHosts } from "../services/hostService";
 import { setHosts, setLoading } from "../store/slice/hostSlice";
+import { Computer, Lan, Place, CalendarToday, Person, ListAlt } from "@mui/icons-material"; // 🌟 Importing icons
 
 const HostTable = ({ selectedTab }) => {
   const navigate = useNavigate();
@@ -30,32 +31,83 @@ const HostTable = ({ selectedTab }) => {
 
   return (
     <TableContainer component={Paper} sx={{ marginLeft: 3, padding: 2 }}>
-      {/* ✅ Show Preregistration Link for "NDC" & "Desktop" */}
-      {(selectedTab === "NDC" || selectedTab === "Desktop") && (
-        <Typography variant="body1" sx={{ marginBottom: 2 }}>
+
+      {/* ✅ Header Section (Node Info & Preregistration) */}
+      <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ marginBottom: 2 }}>
+        {/* 🌟 Attractive Node Info Text with Icon */}
+        <Typography variant="h5" sx={{ fontWeight: "bold", color: "#1976d2", textTransform: "uppercase", display: "flex", alignItems: "center" }}>
+          🖥️ Node Info
+        </Typography>
+
+        {/* 🚀 Go to Preregistration Button */}
+        {(selectedTab === "NDC" || selectedTab === "Desktop") && (
           <Link
             component="button"
-            variant="h6"
             onClick={() => navigate("/preregistration")}
-            sx={{ textDecoration: "underline", color: "blue", cursor: "pointer" }}
+            sx={{
+              textDecoration: "none",
+              backgroundColor: "#1976d2",
+              color: "white",
+              padding: "8px 16px",
+              borderRadius: "6px",
+              fontWeight: "bold",
+              boxShadow: "0px 3px 5px rgba(0,0,0,0.15)",
+              transition: "0.3s",
+              fontSize: "14px",
+              "&:hover": {
+                backgroundColor: "#1565c0",
+                boxShadow: "0px 5px 8px rgba(0,0,0,0.2)",
+              },
+            }}
           >
-            Go to Preregistration
+            🚀 Go to Preregistration
           </Link>
-        </Typography>
-      )}
+        )}
+      </Box>
 
+      {/* ✅ Main Content */}
       {loading ? (
         <CircularProgress sx={{ display: "block", margin: "20px auto" }} />
       ) : (
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Hostname</TableCell>
-              <TableCell>MAC Address</TableCell>
-              <TableCell>Location</TableCell>
-              <TableCell>Registration Date</TableCell>
-              <TableCell>Registered By</TableCell>
-              <TableCell>Actions</TableCell>
+              <TableCell>
+                <Box display="flex" alignItems="center">
+                  <Computer sx={{ color: "#1976d2", marginRight: 1 }} />
+                  Hostname
+                </Box>
+              </TableCell>
+              <TableCell>
+                <Box display="flex" alignItems="center">
+                  <Lan sx={{ color: "#ff9800", marginRight: 1 }} />
+                  MAC Address
+                </Box>
+              </TableCell>
+              <TableCell>
+                <Box display="flex" alignItems="center">
+                  <Place sx={{ color: "#4caf50", marginRight: 1 }} />
+                  Location
+                </Box>
+              </TableCell>
+              <TableCell>
+                <Box display="flex" alignItems="center">
+                  <CalendarToday sx={{ color: "#9c27b0", marginRight: 1 }} />
+                  Registration Date
+                </Box>
+              </TableCell>
+              <TableCell>
+                <Box display="flex" alignItems="center">
+                  <Person sx={{ color: "#f44336", marginRight: 1 }} />
+                  Registered By
+                </Box>
+              </TableCell>
+              <TableCell>
+                <Box display="flex" alignItems="center">
+                  <ListAlt sx={{ color: "#009688", marginRight: 1 }} />
+                  Actions
+                </Box>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

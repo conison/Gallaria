@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Container, Paper, Tabs, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, Button, Typography, Select, MenuItem, CircularProgress } from "@mui/material";
+import { Container, Paper, Tabs, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, Button, Typography, Select, MenuItem, CircularProgress, Box } from "@mui/material";
 import { fetchUnregisteredDevices, fetchRegisteredDevices, registerDevices } from "../services/preregistrationService";
 import { setUnregisteredDevices, setRegisteredDevices, setLoading } from "../store/slice/preregistrationSlice";
+
+// 🌟 Importing Colorful Icons
+import { Lan, Person, CalendarToday, CheckBox, Devices, DoneAll } from "@mui/icons-material";
 
 const Preregistration = () => {
   const dispatch = useDispatch();
@@ -38,27 +41,61 @@ const Preregistration = () => {
 
   return (
     <Container>
-      <Typography variant="h4" sx={{ my: 2 }}>Pre-Registration</Typography>
-      <Paper>
-        <Tabs value={selectedTab} onChange={(e, newValue) => setSelectedTab(newValue)}>
-          <Tab label="Unregistered Devices" />
-          <Tab label="Registered Devices" />
+      {/* 🌟 Smaller & Left-Aligned Page Title */}
+      <Typography variant="h5" sx={{ my: 2, fontWeight: "bold", color: "#1976d2", textAlign: "left" }}>
+        📝 Pre-Registration
+      </Typography>
+
+      {/* ✅ Horizontal Tabs - Aligned Left */}
+      <Paper sx={{ boxShadow: 3 }}>
+        <Tabs 
+          value={selectedTab} 
+          onChange={(e, newValue) => setSelectedTab(newValue)}
+          indicatorColor="primary" 
+          textColor="primary"
+          sx={{ textAlign: "left", pl: 2 }} // ✅ Left Align Tabs
+        >
+          <Tab label="🔄 Unregistered Devices" />
+          <Tab label="✅ Registered Devices" />
         </Tabs>
       </Paper>
 
       {loading ? (
         <CircularProgress sx={{ display: "block", margin: "20px auto" }} />
       ) : selectedTab === 0 ? (
-        <Paper sx={{ p: 2, mt: 2 }}>
-          <Typography variant="h6">Unregistered Devices</Typography>
+        <Paper sx={{ p: 2, mt: 2, boxShadow: 3 }}>
+          <Typography variant="h6" sx={{ mb: 2, display: "flex", alignItems: "center", color: "#ff9800", textAlign: "left" }}>
+            <Devices sx={{ marginRight: 1 }} /> Unregistered Devices
+          </Typography>
+
           <TableContainer>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Select</TableCell>
-                  <TableCell>MAC Address</TableCell>
-                  <TableCell>Onboarded By</TableCell>
-                  <TableCell>Date</TableCell>
+                  <TableCell>
+                    <Box display="flex" alignItems="center">
+                      <CheckBox sx={{ color: "#1976d2", marginRight: 1 }} />
+                      Select
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Box display="flex" alignItems="center">
+                      <Lan sx={{ color: "#4caf50", marginRight: 1 }} />
+                      MAC Address
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Box display="flex" alignItems="center">
+                      <Person sx={{ color: "#f44336", marginRight: 1 }} />
+                      Onboarded By
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Box display="flex" alignItems="center">
+                      <CalendarToday sx={{ color: "#ff5722", marginRight: 1 }} />
+                      Date
+                    </Box>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -75,27 +112,53 @@ const Preregistration = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          
-          <Select value={deviceType} onChange={(e) => setDeviceType(e.target.value)} sx={{ mt: 2 }}>
-            <MenuItem value="NDC">NDC</MenuItem>
-            <MenuItem value="Kiosk">Kiosk</MenuItem>
-            <MenuItem value="Multimedia">Multimedia</MenuItem>
-            <MenuItem value="Desktop">Desktop</MenuItem>
-          </Select>
 
-          <Button variant="contained" sx={{ mt: 2, ml: 2 }} onClick={handleRegister}>Register</Button>
+          <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
+            <Select value={deviceType} onChange={(e) => setDeviceType(e.target.value)} sx={{ mr: 2 }}>
+              <MenuItem value="NDC">🏢 NDC</MenuItem>
+              <MenuItem value="Kiosk">🖥️ Kiosk</MenuItem>
+              <MenuItem value="Multimedia">🎥 Multimedia</MenuItem>
+              <MenuItem value="Desktop">💻 Desktop</MenuItem>
+            </Select>
+            <Button variant="contained" color="primary" onClick={handleRegister}>
+              🚀 Register
+            </Button>
+          </Box>
         </Paper>
       ) : (
-        <Paper sx={{ p: 2, mt: 2 }}>
-          <Typography variant="h6">Registered Devices</Typography>
+        <Paper sx={{ p: 2, mt: 2, boxShadow: 3 }}>
+          <Typography variant="h6" sx={{ mb: 2, display: "flex", alignItems: "center", color: "#4caf50", textAlign: "left" }}>
+            <DoneAll sx={{ marginRight: 1 }} /> Registered Devices
+          </Typography>
+
           <TableContainer>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>MAC Address</TableCell>
-                  <TableCell>Type</TableCell>
-                  <TableCell>Registered By</TableCell>
-                  <TableCell>Date</TableCell>
+                  <TableCell>
+                    <Box display="flex" alignItems="center">
+                      <Lan sx={{ color: "#4caf50", marginRight: 1 }} />
+                      MAC Address
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Box display="flex" alignItems="center">
+                      <Devices sx={{ color: "#9c27b0", marginRight: 1 }} />
+                      Type
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Box display="flex" alignItems="center">
+                      <Person sx={{ color: "#f44336", marginRight: 1 }} />
+                      Registered By
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Box display="flex" alignItems="center">
+                      <CalendarToday sx={{ color: "#ff5722", marginRight: 1 }} />
+                      Date
+                    </Box>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
