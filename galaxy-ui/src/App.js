@@ -7,8 +7,11 @@ import NavigationBar from "./components/NavigationBar";
 import Home from "./pages/Home";
 import HostDetailsPage from "./pages/HostDetailsPage";
 import BulkActions from "./pages/BulkActions";
-import WorkflowHistory from "./pages/WorkflowHistory";
+import Workflow from "./pages/Workflow";
 import Preregistration from "./pages/Preregistration";
+import PXELogViewer from "pages/PXELogViewer";
+import WorkflowLogViewer from "pages/WorkFlowLogViewer";
+import ApiLogViewer from "pages/ApiLogViewer";
 
 function App() {
   return (
@@ -22,9 +25,12 @@ function App() {
               <Route path="/" element={<Navigate to="/node-info" replace />} />
               <Route path="/node-info" element={<Home />} />
               <Route path="/bulk-action" element={<BulkActions />} />
-              <Route path="/workflow" element={<WorkflowHistory />} />
+              <Route path="/workflow" element={<Workflow />} />
               <Route path="/host/:hostname" element={<HostDetailsPage />} />
               <Route path="/preregistration" element={<Preregistration />} />
+              <Route path="/logs/pxe/:hostname" element={<PXELogViewer />} />
+              <Route path="/logs/workflow/:hostname" element={<WorkflowLogViewer />} />
+              <Route path="/logs/api-log/:apiLogUrl" element={<ApiLogViewer />} />
             </Routes>
           </Box>
         </Box>

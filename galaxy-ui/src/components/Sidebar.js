@@ -44,7 +44,7 @@ const Sidebar = ({ onTabSelect }) => {
             }}
           >
             <ListItemIcon>{icons[key]}</ListItemIcon>
-            <ListItemText primary={key.replace(/^./, (str) => str.toUpperCase()) + " Info"} />
+            <ListItemText primary={key.replace(/^./, (str) => str.toUpperCase()) + (key.replace(/^./, (str) => str.toUpperCase())  === "Admin" ? " Actions" : " Info")} />
           </ListItem>
         ))}
       </List>

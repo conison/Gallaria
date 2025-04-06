@@ -2,13 +2,13 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import store from '../../store';
-import WorkflowHistory from '../../pages/WorkflowHistory';
+import Workflow from '../../pages/Workflow';
 
-test('renders WorkflowHistory page', () => {
+test('renders Workflow page', () => {
   render(
     <Provider store={store}>
-      <WorkflowHistory />
+      <Workflow />
     </Provider>
   );
-  expect(screen.getByText(/Workflow History/i)).toBeInTheDocument();
+  expect(screen.getByText(/Workflow/i)).toBeInTheDocument();
 });
