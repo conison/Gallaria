@@ -1,7 +1,6 @@
 .viewer-container {
-  display: flex;
+  display: inline-grid;
   flex-direction: column;
-  height: 100vh;
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
